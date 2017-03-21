@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryUI</title>
+    <!--第一步：引入jsoneditor.js和jqueryui-ui.js-->
+    <script src="../dist/jsoneditor.js"></script>
+    <link rel="stylesheet" href="../jqueryui/jquery-ui.css">
+    <link rel="stylesheet" href="../less/bootstrap.css">
+    <script src="../jqueryui/external/jquery/jquery.js"></script>
+    <script src="../jqueryui/jquery-ui.js"></script>
+    <script>
+
+    </script>
+</head>
+<body class="container">
+<div id='editor_holder'></div>
+<div><input type="checkbox" value="99999" disabled></div>
+<div><input type="checkbox" value="99999" disabled></div>
+<div><input type="checkbox" value="99999" disabled></div>
+<button id='submit'>Submit (console.log)</button>
+</body>
+<!--第二步：构建editor对象-->
+<script>
+
+    var editor=new JSONEditor(document.getElementById('editor_holder'),{
+        theme:"bootstrap3",
+        schema:{
+            type:"object",
+            title:"jQueryui",
+            options:{
+                remove_empty_properties:true
+            },
+            properties:{
+                model1: {
+                    type: "string",
+                    minLength:3,
+                    default:10,
+                    options:{
+                        checkboxradio_option:{
+                            id:'id-1'
+                        }
+
+                    }
+                }
+            }
+
+        }
+    });
+
+//    打印json值
+    document.getElementById('submit').addEventListener('click', function () {
+        // Get the value from the editor
+        console.log(editor.getValue());
+    });
+
+
+</script>
+</html>

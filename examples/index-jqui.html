@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryUI</title>
+    <!--第一步：引入jsoneditor.js和jqueryui-ui.js-->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../jqueryui/jquery-ui.css">
+    <link rel="stylesheet" href="../less/bootstrap.css">
+    <link rel="stylesheet" href="../css/jPicker-1.1.6.css">
+    <script src="../dist/jsoneditor.js"></script>
+    <script src="../jqueryui/external/jquery/jquery.js"></script>
+    <script src="../jqueryui/jquery-ui.js"></script>
+    <script src="../js/jpicker-1.1.6.js"></script>
+</head>
+<body class="container">
+<div id='editor_holder'></div>
+<button id='submit'>Submit (console.log)</button>
+</body>
+<!--第二步：构建editor对象-->
+<script>
+
+    var editor=new JSONEditor(document.getElementById('editor_holder'),{
+        theme:"bootstrap3",
+        schema:{
+            type:"object",
+            title:"jQueryui",
+            options:{
+                remove_empty_properties:true
+            },
+            properties:{
+                checkboxradio:{
+                    title:'jQueryui单选',
+                    type:"string",
+                    format:"checkboxradio",
+//                    disable:true,
+                    default:11,
+                    options:{
+                        custom_option:{
+                            mid:'ckid',
+                            enum:[10,11,12],
+                            enum_title:['A','B','C'],
+                            icon:false,
+                            classes: {
+                                "ui-checkboxradio": "highlight"
+                            }
+                        }
+
+                    }
+                },
+                input: {
+                    title:'输入框',
+                    type: "string",
+                    minLength:3,
+                    disable:true,//设置禁用且不加载默认值
+                    default:15,
+                    options:{
+                        custom_option:{
+                            mid:'model1'
+                        }
+
+                    }
+                },
+                jpick:{
+                    title:'颜色拾取器',
+                    type:'string',
+                    format:'jpicker',
+                    options:{
+                        custom_option:{
+                            mid:'jp1',
+                            window: {
+                                title: 'colorpicker',
+                                effects: {
+                                    type: 'fade',
+                                    speed: {
+                                        show: 'slow',
+                                        hide: 'fast'
+                                    }
+                                },
+                                position: {
+                                    x: 'screenCenter',
+                                    y: 'center'
+                                },
+                                expandable: true,
+                                liveUpdate: true,
+                                alphaSupport: true,
+                                alphaPrecision: 0,
+                                updateInputColor: true
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    });
+
+//    打印json值
+    document.getElementById('submit').addEventListener('click', function () {
+        // Get the value from the editor
+        console.log(editor.getValue());
+    });
+
+
+</script>
+</html>

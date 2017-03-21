@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Basic JSON Editor Example</title>
+    <script src="../dist/jsoneditor.js"></script>
+    <script src="../js/jquery-1.4.2.min.js"></script>
+    <script src="../js/colorpicker.js"></script>
+    <link rel="stylesheet" href="../css/colorpicker.css">
+</head>
+<body>
+<h1>Basic JSON Editor Example</h1>
+
+<div id='editor_holder'></div>
+<button id='submit'>Submit (console.log)</button>
+
+<script>
+    // Initialize the editor with a JSON schema
+    var editor = new JSONEditor(document.getElementById('editor_holder'), {
+        schema: {
+            type: "object",
+            title: "Car",
+            properties: {
+                validate: {
+                    type: "string",
+                    minLength:3
+                }
+
+            }
+        },
+        form_name_root: 'boom'
+    });
+
+    // Hook up the submit button to log to the console
+    document.getElementById('submit').addEventListener('click', function () {
+        // Get the value from the editor
+        console.log(editor.getValue());
+    });
+    var abc = editor.getEditor('root.make');
+
+</script>
+</body>
+</html>
