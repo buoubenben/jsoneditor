@@ -97,7 +97,7 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
 
         return group;
     },
-    //自定义布局 select
+    //自定义布局 (暂留)
     getSwitcher1: function(label,options,self) {
         var switcher = this.getSelectInput(options);
 
