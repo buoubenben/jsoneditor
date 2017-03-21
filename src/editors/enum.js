@@ -22,7 +22,7 @@ JSONEditor.defaults.editors["enum"] = JSONEditor.AbstractEditor.extend({
     }
 
     // Switcher
-    this.switcher = this.theme.getSwitcher(this.select_options);
+    this.switcher = this.theme.getSwitcher1(this.label,this.select_options,this);
     this.container.appendChild(this.switcher);
 
     // Display area

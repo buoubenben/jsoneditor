@@ -5294,7 +5294,7 @@ JSONEditor.defaults.editors["enum"] = JSONEditor.AbstractEditor.extend({
     }
 
     // Switcher
-    this.switcher = this.theme.getSwitcher(this.select_options);
+    this.switcher = this.theme.getSwitcher1(this.label,this.select_options,this);
     this.container.appendChild(this.switcher);
 
     // Display area
@@ -5574,7 +5574,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
       self.onInputChange();
     });
 
-    this.control = this.theme.getFormControl(this.label, this.input, this.description);
+    this.control = this.theme.getFormControl1(this.label, this.input, this.description,this);
     this.container.appendChild(this.control);
 
     this.value = this.enum_values[0];
@@ -7311,7 +7311,6 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
                 label.className += ' col-sm-2 control-label';
                 input.style.width='auto';
                 label.style.lineHeight=2;
-                // label.style.color='#c5c5c5';
                 label.style.cursor='pointer';
                 label.style.userSelect='none';
                 group.appendChild(ck);
@@ -7323,6 +7322,38 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
         if (description) group.appendChild(description);
 
         return group;
+    },
+    //自定义布局 select
+    getSwitcher1: function(label,options,self) {
+        var switcher = this.getSelectInput(options);
+
+        var ck=self.theme.getCheckbox();
+        ck.className+=' col-sm-1';
+        ck.style.position='relative';
+        ck.style.top='4px';
+        if(self.schema.options&&self.schema.options.custom_option&&self.schema.options.custom_option.mid){
+            ck.id=self.schema.options.custom_option.mid;
+            label.setAttribute('for',self.schema.options.custom_option.mid);
+        }
+        label.className += ' col-sm-2 control-label';
+        label.style.lineHeight=2;
+        label.style.cursor='pointer';
+        label.style.userSelect='none';
+
+        switcher.style.backgroundColor = 'transparent';
+        switcher.style.display = 'inline-block';
+        switcher.style.fontStyle = 'italic';
+        switcher.style.fontWeight = 'normal';
+        switcher.style.height = 'auto';
+        switcher.style.marginBottom = 0;
+        switcher.style.marginLeft = '5px';
+        switcher.style.padding = '0 0 0 3px';
+        switcher.style.width = 'auto';
+
+        switcher.appendChild(ck);
+        switcher.appendChild(label);
+
+        return switcher;
     },
     getIndentedPanel: function () {
         var el = document.createElement('div');

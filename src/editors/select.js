@@ -173,7 +173,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
       self.onInputChange();
     });
 
-    this.control = this.theme.getFormControl(this.label, this.input, this.description);
+    this.control = this.theme.getFormControl1(this.label, this.input, this.description,this);
     this.container.appendChild(this.control);
 
     this.value = this.enum_values[0];
