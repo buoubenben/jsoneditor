@@ -92,7 +92,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
 
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControl1(this.label, draw, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, draw, this.description, this);
         this.container.appendChild(this.control);
 
         this.setupCheckboxRadio(this.label);

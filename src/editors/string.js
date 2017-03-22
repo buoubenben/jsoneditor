@@ -252,7 +252,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
 
         if (this.format) this.input.setAttribute('data-schemaformat', this.format);
 
-        this.control = this.theme.getFormControl1(this.label, this.input, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
         // Any special formatting that needs to happen after the input is added to the dom
@@ -291,15 +291,21 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
             this.input.disabled = false;
             // TODO: WYSIWYG and Markdown editors
             this.label.style.color = '';
+            this.value=this.input.value;
         }
+        console.log(this);
+        this.refreshValue();
+        this.onChange(true);
         this._super();
     },
     disable: function () {
         this.input.disabled = true;
         // TODO: WYSIWYG and Markdown editors
         this.label.style.color = '#c5c5c5';
-        this.input.value=null;
-        this.refreshValue();
+        this.value=null;
+
+        //此处为了禁用后input中仍显示之前的值，所以不进行refresh
+
         this.onChange(true);
         this._super();
     },

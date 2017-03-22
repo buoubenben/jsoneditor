@@ -2128,7 +2128,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
 
         if (this.format) this.input.setAttribute('data-schemaformat', this.format);
 
-        this.control = this.theme.getFormControl1(this.label, this.input, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
         // Any special formatting that needs to happen after the input is added to the dom
@@ -2167,15 +2167,21 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
             this.input.disabled = false;
             // TODO: WYSIWYG and Markdown editors
             this.label.style.color = '';
+            this.value=this.input.value;
         }
+        console.log(this);
+        this.refreshValue();
+        this.onChange(true);
         this._super();
     },
     disable: function () {
         this.input.disabled = true;
         // TODO: WYSIWYG and Markdown editors
         this.label.style.color = '#c5c5c5';
-        this.input.value=null;
-        this.refreshValue();
+        this.value=null;
+
+        //此处为了禁用后input中仍显示之前的值，所以不进行refresh
+
         this.onChange(true);
         this._super();
     },
@@ -2678,7 +2684,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
 
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControl1(this.label, draw, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, draw, this.description, this);
         this.container.appendChild(this.control);
 
         this.setupCheckboxRadio(this.label);
@@ -2804,7 +2810,7 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
         this.draw();
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControl1(this.label, this.draw(), this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.draw(), this.description, this);
         this.container.appendChild(this.control);
 
         this.setupJpicker(this.label);
@@ -5583,7 +5589,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
             self.onInputChange();
         });
 
-        this.control = this.theme.getFormControl1(this.label, this.input, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
 
@@ -7356,7 +7362,7 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
         return group;
     },
     //  自定义布局
-    getFormControl1: function (label, input, description, self) {
+    getFormControlB3: function (label, input, description, self) {
         var group = document.createElement('div');
         var uuid = self.theme.GenNonDuplicateID();
 

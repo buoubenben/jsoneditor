@@ -39,7 +39,7 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
         this.draw();
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControl1(this.label, this.draw(), this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.draw(), this.description, this);
         this.container.appendChild(this.control);
 
         this.setupJpicker(this.label);

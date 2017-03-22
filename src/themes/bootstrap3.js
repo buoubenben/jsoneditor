@@ -59,7 +59,7 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
         return group;
     },
     //  自定义布局
-    getFormControl1: function (label, input, description, self) {
+    getFormControlB3: function (label, input, description, self) {
         var group = document.createElement('div');
         var uuid = self.theme.GenNonDuplicateID();
 
