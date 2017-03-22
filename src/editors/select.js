@@ -375,24 +375,30 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         if (this.schema.disable) {
             this.input.disabled = true;
             label.style.color = '#c5c5c5';
-            this.control.firstElementChild.checked = false;
+            if(this.control.firstElementChild.type=='checkbox'){
+                this.control.firstElementChild.checked = false;
+            }
         } else {
-            this.control.firstElementChild.checked = true;
+            if(this.control.firstElementChild.type=='checkbox'){
+                this.control.firstElementChild.checked = true;
+            }
         }
     },
     //checkbox点击监听
     checkListener: function () {
         var self = this;
         var checkboxes = self.control.firstElementChild;
-        checkboxes.addEventListener('change', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (this.checked) {
-                self.enable();
-            } else {
-                self.disable();
-            }
+        if(checkboxes.type=='checkbox'){
+            checkboxes.addEventListener('change', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.checked) {
+                    self.enable();
+                } else {
+                    self.disable();
+                }
 
-        });
+            });
+        }
     }
 });

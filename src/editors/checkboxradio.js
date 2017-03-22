@@ -135,23 +135,27 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
             window.jQuery(this.checkboxradio).checkboxradio("disable");
             label.style.color='#c5c5c5';
         }else {
-            this.control.firstElementChild.checked=true;
+            if(this.control.firstElementChild.type=='checkbox'){
+                this.control.firstElementChild.checked=true;
+            }
         }
 
     },
     checkListener: function () {//创建监听checkbox
         var self = this;
         var checkboxes = self.control.firstElementChild;
-        checkboxes.addEventListener('change', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (this.checked) {
-                self.enable();
-            } else {
-                self.disable();
-            }
+        if(checkboxes.type=='checkbox'){
+            checkboxes.addEventListener('change', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.checked) {
+                    self.enable();
+                } else {
+                    self.disable();
+                }
 
-        });
+            });
+        }
     },
     enable: function () {
         window.jQuery(this.checkboxradio).checkboxradio("enable");
