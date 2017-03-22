@@ -85,7 +85,7 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
             window.jQuery(this.checkboxradio).checkboxradio("disable");
             label.style.color = '#c5c5c5';
         } else {
-            document.getElementById(this.schema.options.custom_option.mid).checked = true;
+            this.control.firstElementChild.checked = true;
         }
     },
     watchok: function () {//监听OK按钮点击事件
@@ -104,7 +104,7 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
     },
     checkListener: function () {
         var self = this;
-        var checkboxes = document.getElementById(this.schema.options.custom_option.mid);
+        var checkboxes = self.control.firstElementChild;
         checkboxes.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -122,7 +122,7 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
         this.value=window.jQuery.jPicker.List[0].color.active.val('hex');
 
         //去掉遮罩层
-        var spanjp=this.label.nextSibling.nextSibling;
+        var spanjp=this.label.nextSibling.nextSibling.firstChild;
         var spanjp_div=spanjp.getElementsByTagName('div')[0];
         spanjp.removeChild(spanjp_div);
 
@@ -135,16 +135,17 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
         this.value = null;
 
         //添加遮罩层
-        var spanjp=this.label.nextSibling.nextSibling;
+        var spanjp=this.label.nextSibling.nextSibling.firstChild;
         var spanjp_div=document.createElement('div');
         spanjp.appendChild(spanjp_div);
         spanjp_div.style.backgroundColor='#eee';
         spanjp_div.style.width='25px';
         spanjp_div.style.height='24px';
         spanjp_div.style.position='relative';
-        spanjp_div.style.zIndex=9;
-        spanjp_div.previousElementSibling.style.position='absolute';
-        spanjp_div.parentElement.style.position='absolute';
+        spanjp_div.style.top='-20px';
+        spanjp_div.style.zIndex=10;
+        // spanjp_div.previousElementSibling.style.position='absolute';
+        // spanjp_div.parentElement.style.position='absolute';
         spanjp_div.style.border='1px solid #ccc';
         spanjp_div.style.borderRadius='50%';
         spanjp_div.style.cursor='not-allowed';

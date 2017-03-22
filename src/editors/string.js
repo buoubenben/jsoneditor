@@ -281,9 +281,9 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
         if(this.schema.disable) {
             this.input.disabled=true;
             label.style.color='#c5c5c5';
-            document.getElementById(this.schema.options.custom_option.mid).checked=false;
+            this.control.firstElementChild.checked=false;
         }else {
-            document.getElementById(this.schema.options.custom_option.mid).checked=true;
+            this.control.firstElementChild.checked=true;
         }
     },
     enable: function () {
@@ -467,7 +467,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     //checkbox点击监听
     checkListener: function () {
         var self = this;
-        var checkboxes = document.getElementById(this.schema.options.custom_option.mid);
+        var checkboxes = self.control.firstElementChild;
         checkboxes.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();

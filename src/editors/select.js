@@ -342,18 +342,19 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         if (!this.always_disabled) {
             this.input.disabled = false;
             this.label.style.color = '';
-            this.value = this.enum_values[0];
+            this.value=this.input.value;
             if (this.select2) this.select2.select2("enable", true);
         }
         this.refreshValue();
         this.onChange(true);
         this._super();
     },
+
+
     disable: function () {
         this.input.disabled = true;
         this.value=null;
         this.label.style.color = '#c5c5c5';
-        console.log(this.input.value);
         if (this.select2) this.select2.select2("enable", false);
         this.refreshValue();
         this.onChange(true);
@@ -374,15 +375,15 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         if (this.schema.disable) {
             this.input.disabled = true;
             label.style.color = '#c5c5c5';
-            document.getElementById(this.schema.options.custom_option.mid).checked = false;
+            this.control.firstElementChild.checked = false;
         } else {
-            document.getElementById(this.schema.options.custom_option.mid).checked = true;
+            this.control.firstElementChild.checked = true;
         }
     },
     //checkbox点击监听
     checkListener: function () {
         var self = this;
-        var checkboxes = document.getElementById(this.schema.options.custom_option.mid);
+        var checkboxes = self.control.firstElementChild;
         checkboxes.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();

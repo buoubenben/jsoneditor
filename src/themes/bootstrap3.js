@@ -59,8 +59,9 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
         return group;
     },
     //  自定义布局
-    getFormControl1: function (label, input, description,self) {
+    getFormControl1: function (label, input, description, self) {
         var group = document.createElement('div');
+        var uuid = self.theme.GenNonDuplicateID();
 
         if (label && input.type === 'checkbox') {
             group.className += ' checkbox';
@@ -72,21 +73,19 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
             input.style.cssFloat = 'left';
         }
         else {
-            var ck=self.theme.getCheckbox();
+            var ck = self.theme.getCheckbox();
             group.className += ' form-group';
             if (label) {
-                ck.className+=' col-sm-1';
-                ck.style.position='relative';
-                ck.style.top='4px';
-                if(self.schema.options&&self.schema.options.custom_option&&self.schema.options.custom_option.mid){
-                    ck.id=self.schema.options.custom_option.mid;
-                    label.setAttribute('for',self.schema.options.custom_option.mid);
-                }
+                ck.className += ' col-sm-1';
+                ck.style.position = 'relative';
+                ck.style.top = '4px';
+                ck.id = uuid;
+                label.setAttribute('for', uuid);
                 label.className += ' col-sm-2 control-label';
-                input.style.width='auto';
-                label.style.lineHeight=2;
-                label.style.cursor='pointer';
-                label.style.userSelect='none';
+                input.style.width = 'auto';
+                label.style.lineHeight = 2;
+                label.style.cursor = 'pointer';
+                label.style.userSelect = 'none';
                 group.appendChild(ck);
                 group.appendChild(label);
             }
@@ -96,38 +95,6 @@ JSONEditor.defaults.themes.bootstrap3 = JSONEditor.AbstractTheme.extend({
         if (description) group.appendChild(description);
 
         return group;
-    },
-    //自定义布局 (暂留)
-    getSwitcher1: function(label,options,self) {
-        var switcher = this.getSelectInput(options);
-
-        var ck=self.theme.getCheckbox();
-        ck.className+=' col-sm-1';
-        ck.style.position='relative';
-        ck.style.top='4px';
-        if(self.schema.options&&self.schema.options.custom_option&&self.schema.options.custom_option.mid){
-            ck.id=self.schema.options.custom_option.mid;
-            label.setAttribute('for',self.schema.options.custom_option.mid);
-        }
-        label.className += ' col-sm-2 control-label';
-        label.style.lineHeight=2;
-        label.style.cursor='pointer';
-        label.style.userSelect='none';
-
-        switcher.style.backgroundColor = 'transparent';
-        switcher.style.display = 'inline-block';
-        switcher.style.fontStyle = 'italic';
-        switcher.style.fontWeight = 'normal';
-        switcher.style.height = 'auto';
-        switcher.style.marginBottom = 0;
-        switcher.style.marginLeft = '5px';
-        switcher.style.padding = '0 0 0 3px';
-        switcher.style.width = 'auto';
-
-        switcher.appendChild(ck);
-        switcher.appendChild(label);
-
-        return switcher;
     },
     getIndentedPanel: function () {
         var el = document.createElement('div');

@@ -135,13 +135,13 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
             window.jQuery(this.checkboxradio).checkboxradio("disable");
             label.style.color='#c5c5c5';
         }else {
-            document.getElementById(this.schema.options.custom_option.mid).checked=true;
+            this.control.firstElementChild.checked=true;
         }
 
     },
     checkListener: function () {//创建监听checkbox
         var self = this;
-        var checkboxes = document.getElementById(this.schema.options.custom_option.mid);
+        var checkboxes = self.control.firstElementChild;
         checkboxes.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();

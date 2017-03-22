@@ -29,90 +29,72 @@
                 remove_empty_properties:true
             },
             properties:{
-//                checkboxradio:{
-//                    title:'jQueryui单选',
-//                    type:"string",
-//                    format:"checkboxradio",
-////                    disable:true,
-//                    default:11,
-//                    options:{
-//                        custom_option:{
-//                            mid:'ckid',
-//                            enum:[10,11,12],
-//                            enum_title:['A','B','C'],
-//                            icon:false,
-//                            classes: {
-//                                "ui-checkboxradio": "highlight"
-//                            }
-//                        }
-//
-//                    }
-//                },
-//                input: {
-//                    title:'输入框',
-//                    type: "string",
-//                    minLength:3,
-//                    disable:true,//设置禁用且不加载默认值
-//                    default:15,
-//                    options:{
-//                        custom_option:{
-//                            mid:'model1'
-//                        }
-//
-//                    }
-//                },
-//                jpick:{
-//                    title:'颜色拾取器',
-//                    type:'string',
-//                    format:'jpicker',
-//                    options:{
-//                        custom_option:{
-//                            mid:'jp1',
-//                            window: {
-//                                title: 'colorpicker',
-//                                effects: {
-//                                    type: 'fade',
-//                                    speed: {
-//                                        show: 'slow',
-//                                        hide: 'fast'
-//                                    }
-//                                },
-//                                position: {
-//                                    x: 'screenCenter',
-//                                    y: 'center'
-//                                },
-//                                expandable: true,
-//                                liveUpdate: true,
-//                                alphaSupport: true,
-//                                alphaPrecision: 0,
-//                                updateInputColor: true
-//                            }
-//                        }
-//                    }
-//                },
-//                num:{
-//                    title:'数字',
-//                    type:'number',
-//                    maximum:10,
-//                    default:5,
-//                    options:{
-//                        custom_option:{
-//                            mid:'num1'
-//                        }
-//                    }
-//                },
+                checkboxradio:{
+                    title:'jQueryui单选',
+                    type:"string",
+                    format:"checkboxradio",
+//                    disable:true,
+                    default:11,
+                    options:{
+                        custom_option:{
+                            enum:[10,11,12],
+                            enum_title:['A','B','C'],
+                            icon:false,
+                            classes: {
+                                "ui-checkboxradio": "highlight"
+                            }
+                        }
+
+                    }
+                },
+                input: {
+                    title:'输入框',
+                    type: "string",
+                    minLength:3,
+                    disable:true,//设置禁用且不加载默认值
+                    default:15,
+                },
+                jpick:{
+                    title:'颜色拾取器',
+                    type:'string',
+                    format:'jpicker',
+                    options:{
+                        custom_option:{
+                            window: {
+                                title: 'colorpicker',
+                                effects: {
+                                    type: 'fade',
+                                    speed: {
+                                        show: 'slow',
+                                        hide: 'fast'
+                                    }
+                                },
+                                position: {
+                                    x: 'screenCenter',
+                                    y: 'center'
+                                },
+                                expandable: true,
+                                liveUpdate: true,
+                                alphaSupport: true,
+                                alphaPrecision: 0,
+                                updateInputColor: true
+                            }
+                        }
+                    }
+                },
+                num:{
+                    title:'数字',
+                    type:'number',
+                    maximum:10,
+                    default:5,
+                },
                 gender:{
+                    title:'下拉选择框',
                     type:'string',
                     enum:[
                         'male',
                         'female'
-                    ],
-                    options:{
-                        custom_option:{
-                            mid:'enum1'
-                        }
-                    }
-
+                    ]
                 }
             }
 
