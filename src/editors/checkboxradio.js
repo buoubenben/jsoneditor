@@ -5,10 +5,8 @@
 JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
     register: function () {
         this._super();
-        this.checkboxnames = window.jQuery('.widget input');
-        for (var i = 0; i < this.checkboxnames.length; i++) {
-            this.checkboxnames[i].setAttribute('name', this.formname);
-        }
+        if (!this.input) return;
+        this.input.setAttribute('name', this.formname);
     },
     typecast: function (value) {
         if (this.schema.type === "boolean") {
@@ -76,10 +74,10 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         this.format = this.schema.format;
 
         //界面绘制
-        var draw = this.draw();
+        this.input = this.draw();
 
         //监听并赋值
-        draw.addEventListener('change', function (e) {
+        this.input.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();
             self.value = e.srcElement.value;
@@ -92,7 +90,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
 
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControlB3(this.label, draw, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
         this.setupCheckboxRadio(this.label);
@@ -107,16 +105,18 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         var checkboxradioContainer, checkboxradioLabel, checkboxradioInput;
         checkboxradioContainer = document.createElement('div');
         checkboxradioContainer.className += " widget";
+        var unid=this.theme.GenNonDuplicateID();
         var option = this.schema.options.custom_option;
         for (var i = 0; i < option.enum_title.length; i++) {
+            var uuid=this.theme.GenNonDuplicateID();
             checkboxradioLabel = document.createElement('label');
-            checkboxradioLabel.setAttribute('for', 'radio' + i);
+            checkboxradioLabel.setAttribute('for', 'radio' + uuid);
             checkboxradioLabel.innerHTML = option.enum_title[i];
 
             checkboxradioInput = document.createElement('input');
             checkboxradioInput.setAttribute('type', 'radio');
-            checkboxradioInput.name = 'radio';
-            checkboxradioInput.id = 'radio' + i;
+            checkboxradioInput.name = 'radio'+unid;
+            checkboxradioInput.id = 'radio' + uuid;
             checkboxradioInput.value = option.enum[i];
             checkboxradioContainer.appendChild(checkboxradioLabel);
             checkboxradioContainer.appendChild(checkboxradioInput);
@@ -132,7 +132,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
     },
     initstatus:function (label) {
         if(this.schema.disable) {
-            window.jQuery(this.checkboxradio).checkboxradio("disable");
+            window.jQuery(this.input).children('input').checkboxradio("disable");
             label.style.color='#c5c5c5';
         }else {
             if(this.control.firstElementChild.type=='checkbox'){
@@ -158,20 +158,21 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         }
     },
     enable: function () {
-        window.jQuery(this.checkboxradio).checkboxradio("enable");
+        window.jQuery(this.input).children('input').checkboxradio("enable");
         this.label.style.color = '';
+        this.value=this.input.value;
+        this.refreshValue();
+        this.onChange(true);
         this._super();
     },
     disable: function () {
-        window.jQuery(this.checkboxradio).checkboxradio("disable");
+        window.jQuery(this.input).children('input').checkboxradio("disable");
         this.label.style.color = '#c5c5c5';
+        this.input.value=this.value;
         this.value = null;
-        for (var i = 0; i < this.checkboxradio.length; i++) this.checkboxradio[i].checked = false;
-        this.checkboxradio.checkboxradio("refresh");
 
         this.is_dirty = true;
 
-        this.refreshValue();
         this.onChange(true);
         this._super();
     }

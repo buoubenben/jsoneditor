@@ -2166,10 +2166,9 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
         if (!this.always_disabled) {
             this.input.disabled = false;
             // TODO: WYSIWYG and Markdown editors
-            this.label.style.color = '';
+            if(this.label) this.label.style.color = '';
             this.value=this.input.value;
         }
-        console.log(this);
         this.refreshValue();
         this.onChange(true);
         this._super();
@@ -2177,7 +2176,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     disable: function () {
         this.input.disabled = true;
         // TODO: WYSIWYG and Markdown editors
-        this.label.style.color = '#c5c5c5';
+        if(this.label) this.label.style.color = '#c5c5c5';
         this.value=null;
 
         //此处为了禁用后input中仍显示之前的值，所以不进行refresh
@@ -2358,7 +2357,6 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
             } else {
                 self.disable();
             }
-
         });
     }
 });
@@ -2597,10 +2595,8 @@ JSONEditor.defaults.editors.colorpicker = JSONEditor.AbstractEditor.extend({
 JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
     register: function () {
         this._super();
-        this.checkboxnames = window.jQuery('.widget input');
-        for (var i = 0; i < this.checkboxnames.length; i++) {
-            this.checkboxnames[i].setAttribute('name', this.formname);
-        }
+        if (!this.input) return;
+        this.input.setAttribute('name', this.formname);
     },
     typecast: function (value) {
         if (this.schema.type === "boolean") {
@@ -2668,10 +2664,10 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         this.format = this.schema.format;
 
         //界面绘制
-        var draw = this.draw();
+        this.input = this.draw();
 
         //监听并赋值
-        draw.addEventListener('change', function (e) {
+        this.input.addEventListener('change', function (e) {
             e.preventDefault();
             e.stopPropagation();
             self.value = e.srcElement.value;
@@ -2684,7 +2680,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
 
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControlB3(this.label, draw, this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
         this.setupCheckboxRadio(this.label);
@@ -2699,16 +2695,18 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         var checkboxradioContainer, checkboxradioLabel, checkboxradioInput;
         checkboxradioContainer = document.createElement('div');
         checkboxradioContainer.className += " widget";
+        var unid=this.theme.GenNonDuplicateID();
         var option = this.schema.options.custom_option;
         for (var i = 0; i < option.enum_title.length; i++) {
+            var uuid=this.theme.GenNonDuplicateID();
             checkboxradioLabel = document.createElement('label');
-            checkboxradioLabel.setAttribute('for', 'radio' + i);
+            checkboxradioLabel.setAttribute('for', 'radio' + uuid);
             checkboxradioLabel.innerHTML = option.enum_title[i];
 
             checkboxradioInput = document.createElement('input');
             checkboxradioInput.setAttribute('type', 'radio');
-            checkboxradioInput.name = 'radio';
-            checkboxradioInput.id = 'radio' + i;
+            checkboxradioInput.name = 'radio'+unid;
+            checkboxradioInput.id = 'radio' + uuid;
             checkboxradioInput.value = option.enum[i];
             checkboxradioContainer.appendChild(checkboxradioLabel);
             checkboxradioContainer.appendChild(checkboxradioInput);
@@ -2724,7 +2722,7 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
     },
     initstatus:function (label) {
         if(this.schema.disable) {
-            window.jQuery(this.checkboxradio).checkboxradio("disable");
+            window.jQuery(this.input).children('input').checkboxradio("disable");
             label.style.color='#c5c5c5';
         }else {
             if(this.control.firstElementChild.type=='checkbox'){
@@ -2750,20 +2748,21 @@ JSONEditor.defaults.editors.checkboxradio = JSONEditor.AbstractEditor.extend({
         }
     },
     enable: function () {
-        window.jQuery(this.checkboxradio).checkboxradio("enable");
+        window.jQuery(this.input).children('input').checkboxradio("enable");
         this.label.style.color = '';
+        this.value=this.input.value;
+        this.refreshValue();
+        this.onChange(true);
         this._super();
     },
     disable: function () {
-        window.jQuery(this.checkboxradio).checkboxradio("disable");
+        window.jQuery(this.input).children('input').checkboxradio("disable");
         this.label.style.color = '#c5c5c5';
+        this.input.value=this.value;
         this.value = null;
-        for (var i = 0; i < this.checkboxradio.length; i++) this.checkboxradio[i].checked = false;
-        this.checkboxradio.checkboxradio("refresh");
 
         this.is_dirty = true;
 
-        this.refreshValue();
         this.onChange(true);
         this._super();
     }
@@ -2807,78 +2806,65 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
         this.format = this.schema.format;
 
         //界面绘制
-        this.draw();
+        var uuid = this.theme.GenNonDuplicateID();
+        this.input = this.draw(uuid);
 
         if (this.options.compact) this.container.className += ' compact';
-        this.control = this.theme.getFormControlB3(this.label, this.draw(), this.description, this);
+        this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
-        this.setupJpicker(this.label);
 
+        this.setupJpicker(this.label, uuid);
 
         //监听并赋值
-
-
         this.checkListener();
 
-
     },
-    draw: function () {
+    draw: function (uuid) {
         var colorContainer;
-        colorContainer = document.createElement('div');
+        colorContainer = document.createElement('input');
+        colorContainer.value = this.schema.default;
+        colorContainer.id = uuid;
+        colorContainer.style.display='none';
         colorContainer.className = 'jpicker';
         return colorContainer;
 
     },
-    setupJpicker: function (label) {
+    setupJpicker: function (label, uuid) {
         var self = this;
+        //回调函数给颜色赋值
         var fn = function (color, context) {
             var all = color.val('all');
-            self.value = all.hex;
+            self.value = '#'+all.ahex;
 
-            //点击checkbox 获取ok按钮 调用监听函数
-            var okbtn = document.getElementsByClassName('Ok');
-            for (var i = 0; i < okbtn.length; i++) {
-                self.watchok(okbtn, i);
-            }
+            self.refreshValue();
+            self.onChange(true);
+
         };
-
+        var jpConfig = this.schema.options.custom_option;
 
         var options = $extend({}, JSONEditor.plugins.jpicker);
-        if (this.schema.options && this.schema.options.custom_option) options = $extend(options, this.schema.options.custom_option);
+        if (this.schema.options && this.schema.options.custom_option) options = $extend(options, jpConfig);
         window.jQuery.fn.jPicker.defaults.images.clientPath = '../images/';
-        this.colorPicker = window.jQuery('.jpicker').jPicker(options, fn);
+        this.colorPicker = window.jQuery('#' + uuid).jPicker(options, fn);
         this.initstatus(label);
+
 
     },
     initstatus: function (label) {
         if (this.schema.disable) {
-            window.jQuery(this.checkboxradio).checkboxradio("disable");
+            // window.jQuery(this.checkboxradio).checkboxradio("disable");
             label.style.color = '#c5c5c5';
         } else {
-            if(this.control.firstElementChild.type=='checkbox'){
+            if (this.control.firstElementChild.type == 'checkbox') {
                 this.control.firstElementChild.checked = true;
             }
         }
     },
-    watchok: function () {//监听OK按钮点击事件
-        var self = this;
-        var button = document.getElementsByClassName('Button')[0];
-        console.log(button);
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            self.is_dirty = true;
-
-            self.refreshValue();
-            self.onChange(true);
-        });
-
-    },
     checkListener: function () {
         var self = this;
         var checkboxes = self.control.firstElementChild;
-        if(checkboxes.type=='checkbox'){
+        if (checkboxes.type == 'checkbox') {
             checkboxes.addEventListener('change', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -2894,11 +2880,11 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
     },
     enable: function () {
         this.label.style.color = '';
-        this.value=window.jQuery.jPicker.List[0].color.active.val('hex');
-
+        // this.value=window.jQuery.jPicker.List[0].color.active.val('hex');
+        this.value = this.input.value;
         //去掉遮罩层
-        var spanjp=this.label.nextSibling.nextSibling.firstChild;
-        var spanjp_div=spanjp.getElementsByTagName('div')[0];
+        var spanjp = this.label.nextSibling.nextSibling.firstChild;
+        var spanjp_div = spanjp.getElementsByTagName('div')[0];
         spanjp.removeChild(spanjp_div);
 
         this.refreshValue();
@@ -2907,27 +2893,29 @@ JSONEditor.defaults.editors.jpicker = JSONEditor.AbstractEditor.extend({
     },
     disable: function () {
         this.label.style.color = '#c5c5c5';
+
+        this.input.value = this.value;
         this.value = null;
 
         //添加遮罩层
-        var spanjp=this.label.nextSibling.nextSibling.firstChild;
-        var spanjp_div=document.createElement('div');
+        var spanjp = this.label.nextSibling.nextSibling.firstChild;
+        var spanjp_div = document.createElement('div');
         spanjp.appendChild(spanjp_div);
-        spanjp_div.style.backgroundColor='#eee';
-        spanjp_div.style.width='25px';
-        spanjp_div.style.height='24px';
-        spanjp_div.style.position='relative';
-        spanjp_div.style.top='-20px';
-        spanjp_div.style.zIndex=10;
+        spanjp_div.style.backgroundColor = '#eee';
+        spanjp_div.style.width = '25px';
+        spanjp_div.style.height = '24px';
+        spanjp_div.style.position = 'relative';
+        spanjp_div.style.top = '-20px';
+        spanjp_div.style.zIndex = 10;
         // spanjp_div.previousElementSibling.style.position='absolute';
         // spanjp_div.parentElement.style.position='absolute';
-        spanjp_div.style.border='1px solid #ccc';
-        spanjp_div.style.borderRadius='50%';
-        spanjp_div.style.cursor='not-allowed';
+        spanjp_div.style.border = '1px solid #ccc';
+        spanjp_div.style.borderRadius = '50%';
+        spanjp_div.style.cursor = 'not-allowed';
 
         this.is_dirty = true;
 
-        this.refreshValue();
+        // this.refreshValue();
         this.onChange(true);
         this._super();
     }
@@ -3326,8 +3314,6 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
             this.editor_holder.appendChild(this.row_container);
 
             $each(this.editors, function (key, editor) {
-                console.log(editor);
-                console.log(key);
                 var holder = self.theme.getGridColumn();
                 self.row_container.appendChild(holder);
 
@@ -5592,8 +5578,6 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
-
-
         //设置初始状态
         this.initstatus(this.label);
         //监听checkbox
@@ -5757,7 +5741,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
     enable: function () {
         if (!this.always_disabled) {
             this.input.disabled = false;
-            this.label.style.color = '';
+            if(this.label) this.label.style.color = '';
             this.value=this.input.value;
             if (this.select2) this.select2.select2("enable", true);
         }
@@ -5770,7 +5754,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
     disable: function () {
         this.input.disabled = true;
         this.value=null;
-        this.label.style.color = '#c5c5c5';
+        if(this.label) this.label.style.color = '#c5c5c5';
         if (this.select2) this.select2.select2("enable", false);
         this.refreshValue();
         this.onChange(true);

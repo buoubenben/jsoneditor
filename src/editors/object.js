@@ -390,8 +390,6 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
             this.editor_holder.appendChild(this.row_container);
 
             $each(this.editors, function (key, editor) {
-                console.log(editor);
-                console.log(key);
                 var holder = self.theme.getGridColumn();
                 self.row_container.appendChild(holder);
 

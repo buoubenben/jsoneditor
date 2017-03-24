@@ -176,8 +176,6 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         this.control = this.theme.getFormControlB3(this.label, this.input, this.description, this);
         this.container.appendChild(this.control);
 
-
-
         //设置初始状态
         this.initstatus(this.label);
         //监听checkbox
@@ -341,7 +339,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
     enable: function () {
         if (!this.always_disabled) {
             this.input.disabled = false;
-            this.label.style.color = '';
+            if(this.label) this.label.style.color = '';
             this.value=this.input.value;
             if (this.select2) this.select2.select2("enable", true);
         }
@@ -354,7 +352,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
     disable: function () {
         this.input.disabled = true;
         this.value=null;
-        this.label.style.color = '#c5c5c5';
+        if(this.label) this.label.style.color = '#c5c5c5';
         if (this.select2) this.select2.select2("enable", false);
         this.refreshValue();
         this.onChange(true);

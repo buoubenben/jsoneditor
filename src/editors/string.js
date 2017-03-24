@@ -290,10 +290,9 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
         if (!this.always_disabled) {
             this.input.disabled = false;
             // TODO: WYSIWYG and Markdown editors
-            this.label.style.color = '';
+            if(this.label) this.label.style.color = '';
             this.value=this.input.value;
         }
-        console.log(this);
         this.refreshValue();
         this.onChange(true);
         this._super();
@@ -301,7 +300,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     disable: function () {
         this.input.disabled = true;
         // TODO: WYSIWYG and Markdown editors
-        this.label.style.color = '#c5c5c5';
+        if(this.label) this.label.style.color = '#c5c5c5';
         this.value=null;
 
         //此处为了禁用后input中仍显示之前的值，所以不进行refresh
@@ -482,7 +481,6 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
             } else {
                 self.disable();
             }
-
         });
     }
 });

@@ -33,12 +33,29 @@
                     title:'jQueryui单选',
                     type:"string",
                     format:"checkboxradio",
-//                    disable:true,
                     default:11,
                     options:{
                         custom_option:{
                             enum:[10,11,12],
                             enum_title:['A','B','C'],
+                            icon:false,
+                            classes: {
+                                "ui-checkboxradio": "highlight"
+                            }
+                        }
+
+                    }
+                },
+                checkboxradiohide:{
+                    title:'jQueryui单选hide',
+                    type:"string",
+                    format:"checkboxradio",
+                    default:15,
+                    disable:true,
+                    options:{
+                        custom_option:{
+                            enum:[13,14,15],
+                            enum_title:['D','E','F'],
                             icon:false,
                             classes: {
                                 "ui-checkboxradio": "highlight"
@@ -58,10 +75,77 @@
                     title:'颜色拾取器',
                     type:'string',
                     format:'jpicker',
+                    default:'#ff00ff',
                     options:{
                         custom_option:{
                             window: {
                                 title: 'colorpicker',
+                                effects: {
+                                    type: 'fade',
+                                    speed: {
+                                        show: 'slow',
+                                        hide: 'fast'
+                                    }
+                                },
+                                position: {
+                                    x: 'screenCenter',
+                                    y: 'center'
+                                },
+                                expandable: true,
+                                liveUpdate: true,
+                                alphaSupport: true,
+                                alphaPrecision: 0,
+                                updateInputColor: true
+                            },
+                            color:{
+                                active: new $.jPicker.Color({ hex: '#0000ff' }),
+                            }
+
+                        }
+                    }
+                },
+                jpick1:{
+                    title:'颜色拾取器1',
+                    type:'string',
+                    format:'jpicker',
+                   default:'#00ff00',
+                    options:{
+                        custom_option:{
+                            window: {
+                                title: 'colorpicker1',
+                                effects: {
+                                    type: 'fade',
+                                    speed: {
+                                        show: 'slow',
+                                        hide: 'fast'
+                                    }
+                                },
+                                position: {
+                                    x: 'screenCenter',
+                                    y: 'center'
+                                },
+                                expandable: true,
+                                liveUpdate: true,
+                                alphaSupport: true,
+                                alphaPrecision: 0,
+                                updateInputColor: true
+                            },
+                            color:{
+                                active: new $.jPicker.Color({ hex: '#ff00ff' }),
+                            }
+                        }
+                    }
+
+                },
+                jpick2:{
+                    title:'颜色拾取器2',
+                    type:'string',
+                    format:'jpicker',
+                    default:'#ff0000',
+                    options:{
+                        custom_option:{
+                            window: {
+                                title: 'colorpicker2',
                                 effects: {
                                     type: 'fade',
                                     speed: {
@@ -87,6 +171,14 @@
                     type:'number',
                     maximum:10,
                     default:5,
+
+                },
+                numhide:{
+                    title:'数字hide',
+                    type:'number',
+                    maximum:20,
+                    default:15,
+                    disable:true
                 },
                 gender:{
                     title:'下拉选择框',
@@ -95,6 +187,15 @@
                         'male',
                         'female'
                     ]
+                },
+                booleanhide:{
+                    title:'下拉选择框hide',
+                    type:'string',
+                    enum:[
+                        'TRUE',
+                        'FALSE'
+                    ],
+                    disable:true
                 }
             }
 
